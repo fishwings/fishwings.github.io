@@ -39,9 +39,9 @@ disqusShortname = "yourdiscussshortname"  ## 是否开启disqus评论，不要�
 ## 友情链接，可以多个
 
 [[params.links]]
-  title = "飞雪无情的博客"
-  name = "飞雪无情的博客"
-  url = "https://www.flysnow.org/"
+#  title = "飞雪无情的博客"
+#  name = "飞雪无情的博客"
+#  url = "https://www.flysnow.org/"
 ## 侧边栏广告位
 #[[params.ads]]
 #  title = "【渠道专享低折扣】11月特惠 限时2折"
