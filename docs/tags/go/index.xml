@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>go on fishwings 博客</title>
+    <link>http://fishwings.cn/tags/go/</link>
+    <description>Recent content in go on fishwings 博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Tue, 15 Feb 2022 00:00:00 +0000</lastBuildDate><atom:link href="http://fishwings.cn/tags/go/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>获取goroutine id 的两种实现</title>
+      <link>http://fishwings.cn/post/get-two-way-implementations-of-GoroutineID/</link>
+      <pubDate>Tue, 15 Feb 2022 00:00:00 +0000</pubDate>
+      
+      <guid>http://fishwings.cn/post/get-two-way-implementations-of-GoroutineID/</guid>
+      <description>﻿# 获取goroutine id 的两种实现 众所周知，在golang并发编程的一些情况下，需要打印一下goroutien的id号，怎么来实现呢？下面提供两种方法： 从runtime.Stack()方法中获取方法栈，然后从栈帧处获取； 获取运行时g指针，反解析出g的结构。g指针时保存在当前g</description>
+    </item>
+    
+  </channel>
+</rss>

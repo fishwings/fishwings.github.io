@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Categories on fishwings 博客</title>
+    <link>http://fishwings.cn/categories/</link>
+    <description>Recent content in Categories on fishwings 博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Thu, 26 May 2022 00:00:00 +0000</lastBuildDate><atom:link href="http://fishwings.cn/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>软件设计</title>
+      <link>http://fishwings.cn/categories/%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1/</link>
+      <pubDate>Thu, 26 May 2022 00:00:00 +0000</pubDate>
+      
+      <guid>http://fishwings.cn/categories/%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>go</title>
+      <link>http://fishwings.cn/categories/go/</link>
+      <pubDate>Tue, 15 Feb 2022 00:00:00 +0000</pubDate>
+      
+      <guid>http://fishwings.cn/categories/go/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>
