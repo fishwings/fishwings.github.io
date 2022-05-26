@@ -1,0 +1,496 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
+
+    <title>软件设计原则 1 | fishwings 博客</title>
+    <meta property="og:title" content="软件设计原则 1 - fishwings 博客">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content='2022-05-26T00:00:00&#43;08:00'>
+        
+        
+    <meta property="article:modified_time" content='2022-05-26T00:00:00&#43;08:00'>
+        
+    <meta name="Keywords" content="golang,go语言,fishwings,java,大数据,博客,云原生,分布式,软件架构,presto,OpenLooKeng">
+    <meta name="description" content="软件设计原则 1">
+        <meta name="author" content="fishwings">
+        
+    <meta property="og:url" content="http://fishwings.cn/post/2022-05-26-Software-Architecture/">
+    <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
+
+    <link rel="stylesheet" href='/css/normalize.css'>
+    <link rel="stylesheet" href='/css/style.css'>
+    <script type="text/javascript" src="//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    
+    
+    
+        <link href="https://cdn.bootcdn.net/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" rel="stylesheet">
+    
+    
+    
+    
+        <link rel="stylesheet" href='/css/douban.css'>
+    
+        <link rel="stylesheet" href='/css/other.css'>
+    
+</head>
+
+<body>
+    <header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="http://fishwings.cn">
+                        fishwings 博客
+                    </a>
+                
+                <p class="description">专注于Go语言(golang)、云原生、分布式、大数据、项目管理、软件架构</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="http://fishwings.cn">首页</a>
+                    
+                    <a  href="http://fishwings.cn/tools/" title="工具">工具</a>
+                    
+                    <a  href="http://fishwings.cn/archives/" title="归档">归档</a>
+                    
+                    <a  href="http://fishwings.cn/about/" title="关于">关于</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <div id="body">
+        <div class="container">
+            <div class="col-group">
+
+                <div class="col-8" id="main">
+                    
+<div class="res-cons">
+    <style type="text/css">
+    .post-toc {
+        position: fixed;
+        width: 200px;
+        margin-left: -210px;
+        padding: 5px 10px;
+        font-family: Athelas, STHeiti, Microsoft Yahei, serif;
+        font-size: 12px;
+        border: 1px solid rgba(0, 0, 0, .07);
+        border-radius: 5px;
+        background-color: rgba(255, 255, 255, 0.98);
+        background-clip: padding-box;
+        -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, .125);
+        box-shadow: 1px 1px 2px rgba(0, 0, 0, .125);
+        word-wrap: break-word;
+        white-space: nowrap;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        z-index: 999;
+        cursor: pointer;
+        max-height: 70%;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    .post-toc .post-toc-title {
+        width: 100%;
+        margin: 0 auto;
+        font-size: 20px;
+        font-weight: 400;
+        text-transform: uppercase;
+        text-align: center;
+    }
+
+    .post-toc .post-toc-content {
+        font-size: 15px;
+    }
+
+    .post-toc .post-toc-content>nav>ul {
+        margin: 10px 0;
+    }
+
+    .post-toc .post-toc-content ul {
+        padding-left: 20px;
+        list-style: square;
+        margin: 0.5em;
+        line-height: 1.8em;
+    }
+
+    .post-toc .post-toc-content ul ul {
+        padding-left: 15px;
+        display: none;
+    }
+
+    @media print,
+    screen and (max-width:1057px) {
+        .post-toc {
+            display: none;
+        }
+    }
+</style>
+<div class="post-toc" style="position: absolute; top: 188px;">
+    <h2 class="post-toc-title">文章目录</h2>
+    <div class="post-toc-content">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#11-通过所有测试">1.1 通过所有测试</a></li>
+    <li><a href="#12-尽可能消除重复">1.2 尽可能消除重复</a></li>
+    <li><a href="#13-尽可能清晰表达">1.3 尽可能清晰表达</a></li>
+    <li><a href="#14-更少的代码元素">1.4 更少的代码元素</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#21-最小化重复">2.1 最小化重复</a></li>
+    <li><a href="#22-分离变化">2.2 分离变化</a></li>
+    <li><a href="#23-缩小依赖范围">2.3 缩小依赖范围</a></li>
+    <li><a href="#24-向稳定方向依赖">2.4 向稳定方向依赖</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#23-种设计模式">23 种设计模式</a></li>
+  </ul>
+</nav>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var postToc = $(".post-toc");
+        if (postToc.length) {
+            var leftPos = $("#main").offset().left;
+            if (leftPos < 220) {
+                postToc.css({ "width": leftPos - 10, "margin-left": (0 - leftPos) })
+            }
+
+            var t = postToc.offset().top - 20,
+                a = {
+                    start: {
+                        position: "absolute",
+                        top: t
+                    },
+                    process: {
+                        position: "fixed",
+                        top: 20
+                    },
+                };
+            $(window).scroll(function () {
+                var e = $(window).scrollTop();
+                e < t ? postToc.css(a.start) : postToc.css(a.process)
+            })
+        }
+
+        if ($("#TableOfContents").children().length < 1) {
+            $(".post-toc").remove();
+        }
+    })
+</script>
+    <article class="post">
+        <header>
+            <h1 class="post-title">软件设计原则 1</h1>
+        </header>
+        <date class="post-meta meta-date">
+            2022年5月26日
+        </date>
+        
+        <div class="post-meta">
+            <span>|</span>
+            
+            <span class="meta-category"><a href='/categories/%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1'>软件设计</a></span>
+            
+        </div>
+        
+        
+        <div class="post-meta">
+            <span id="busuanzi_container_page_pv">|<span id="busuanzi_value_page_pv"></span><span>
+                    阅读</span></span>
+        </div>
+        
+        
+        <div class="post-content">
+            <p><!-- raw HTML omitted --># 软件设计原则1</p>
+<h1 id="1-设计原则-简单设计四个基本原则">1. 设计原则-简单设计四个基本原则</h1>
+<h2 id="11-通过所有测试">1.1 通过所有测试</h2>
+<p>软件系统需求要正确完成，包含功能需求和非功能需求，要通过客户验收。</p>
+<h2 id="12-尽可能消除重复">1.2 尽可能消除重复</h2>
+<p>代码要高内聚，低耦合，有良好的正交性</p>
+<p>不是所有重复都可以消除，最小化重复</p>
+<h2 id="13-尽可能清晰表达">1.3 尽可能清晰表达</h2>
+<p>漂亮代码如同优美的散文，不隐藏设计者的意图，抽象恰当，控制简洁直接</p>
+<p>代码被阅读的次数远远大于修改次数</p>
+<h2 id="14-更少的代码元素">1.4 更少的代码元素</h2>
+<p>尽可能降低设计的复杂度，保持简单。</p>
+<h1 id="2-正交四原则">2 正交四原则</h1>
+<h2 id="21-最小化重复">2.1 最小化重复</h2>
+<p>重复即耦合，需要修改，很可能漏改。</p>
+<h2 id="22-分离变化">2.2 分离变化</h2>
+<p>识别变化方向并预留变换的扩展接口。</p>
+<h2 id="23-缩小依赖范围">2.3 缩小依赖范围</h2>
+<p>最小化知识原则，依赖接口，接口尽可能简洁</p>
+<h2 id="24-向稳定方向依赖">2.4 向稳定方向依赖</h2>
+<p>在使用者角度去定义API，关注what，而不是why</p>
+<h1 id="other">other</h1>
+<ol>
+<li>设计模式是用来解决同一问题不同表相的。设计模式的两大主题是系统的复用和拓展。</li>
+</ol>
+<h2 id="23-种设计模式">23 种设计模式</h2>
+<p>创建型：</p>
+<ol>
+<li>Factory Method：隔离创建对象细节，使得创建对象的行为可拓展。</li>
+<li>Abstract Factory：模式抽象出创建一组相关对象的接口，其中每个方法为factory method</li>
+<li>Builder：与factory 不同点，该模式包含了对象构造的若干过程，天然和template结合</li>
+<li>Prototype: 用于某个对象为模 创建一个新对象的场景，例如幻灯片的复制，对象的clone</li>
+<li>Singleton：全局只创建一个对象。</li>
+</ol>
+<p>结构型</p>
+<ol>
+<li>Adapter Class/Object： 处理遗留系统的好手段，用于用空方法实现接口作为抽象父类</li>
+</ol>
+<p>适配器模式：
+场景：现有类接口不满足需求。复用现有类，并使不兼容类一起工作。复用现有子类，通过对象适配器来适配父类接口。
+优点：提升系统的拓展性，避免现有代码的修改。
+缺点：过度使用适配器，系统变凌乱。</p>
+<ol>
+<li>
+<p>Bridge：使用关联替代继承，解决类多维度扩展的类爆炸</p>
+</li>
+<li>
+<p>Composite：将组件组装为整体使用</p>
+</li>
+<li>
+<p>Decorator： 常用各种wrapper，用于在原函数执行前后做额外的工作</p>
+</li>
+<li>
+<p>Facade：封装扇出，利用树形结构减少调用者的复杂度</p>
+<p>外观模式：
+场景：为一个复杂的系统对外提供统一接口。对子系统进行分层，并简化层次间的接口依赖。
+优点：降低了系统间及系统和外部的耦合度，提升安全性。简化了系统的接口，更易于使用系统。
+缺点：对同一接口的使用可能会引入较多约束，降低了系统的灵活性。不易于修改，子系统的变动可能会引起外观层甚至客户端的改动，违背开闭原则。</p>
+</li>
+<li>
+<p>Flyweight：复用变化少的对象</p>
+</li>
+</ol>
+<p>享元模式
+解释；主要用于减少创建对象的数量，减少内存占用和提高性能。它提供了减少数量改善应用所需的对象结构的方式。
+优点：大大减少对象的创建，降低系统的内存，使效率提高。
+缺点：提高了系统的复杂度，需要分离出外部状态和内部状态，而且外部状态是可以固化的性质，不随着内部状态的变化而变化。</p>
+<ol>
+<li>Proxy：原对象的一个完整的替代品</li>
+</ol>
+<p>行为型</p>
+<ol>
+<li>Interpreter：解释执行自定义的某种语法</li>
+<li>Template Method：框架和钩子</li>
+<li>Chain of Responsibility：一组对象按照既定的顺序关联依次处理，其中任意对象都有权停止调用传递</li>
+<li>Command：将行为抽象和解耦</li>
+<li>Iterator：封装数据的访问行为（顺序和可见性）</li>
+<li>Mediator：用一个中介对象来封装一系列的交互；新增一个模块处理两个模块的交互</li>
+<li>Observer：订阅/发布模型，用于事件驱动的设计</li>
+<li>Stat：封装FSM的状态和状态迁移，每个状态定义了自身的输入与状态迁移</li>
+<li>Strategy：使用接口即使用strategy，用于隔离变化</li>
+<li>Visitor：数据与行为分离方法。可做到一个被访问者动态添加新的操作而无需其他的修改</li>
+</ol>
+
+        </div>
+
+        
+
+
+        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/about/">关于我</a></li>
+        
+        <li><a href="/post/get-two-way-implementations-of-GoroutineID/">获取goroutine id 的两种实现</a></li>
+        
+        <li><a href="/tools/">工具</a></li>
+        
+        <li><a href="/archives/">归档</a></li>
+        
+        <li><a href="/search/">搜索</a></li>
+        
+    </ul>
+</div>
+
+
+        <div class="post-meta meta-tags">
+            
+            <ul class="clearfix">
+                
+                <li><a href='/tags/%E8%BD%AF%E4%BB%B6%E6%9E%B6%E6%9E%84'>软件架构</a></li>
+                
+            </ul>
+            
+        </div>
+    </article>
+    
+    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "yourdiscussshortname" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    
+    
+    <div class="post bg-white">
+      <script src="https://utteranc.es/client.js"
+            repo= "your github repo"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+      </script>
+    </div>
+    
+</div>
+
+                    <footer id="footer">
+    <div>
+        &copy; 2022 <a href="http://fishwings.cn">fishwings 博客 By fishwings</a>
+        
+        | <a rel="nofollow" target="_blank" href="http://beian.miit.gov.cn/">蜀ICP备2022004196号-1</a>
+        
+    </div>
+    <br />
+    <div>
+        <div class="github-badge">
+            <a href="https://gohugo.io/" target="_black" rel="nofollow"><span class="badge-subject">Powered by</span><span class="badge-value bg-blue">Hugo</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://www.flysnow.org/" target="_black"><span class="badge-subject">Design by</span><span class="badge-value bg-brightgreen">飞雪无情</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://github.com/flysnow-org/maupassant-hugo" target="_black"><span class="badge-subject">Theme</span><span class="badge-value bg-yellowgreen">Maupassant</span></a>
+        </div>
+    </div>
+</footer>
+
+
+    
+    <script type="text/javascript">
+        window.MathJax = {
+            tex2jax: {
+                inlineMath: [['$', '$']],
+                processEscapes: true
+                }
+            };
+    </script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script><script src="https://cdn.bootcdn.net/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
+
+
+
+    <script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+
+
+
+
+    <script src='/js/douban.js'></script>
+
+                </div>
+
+                <div id="secondary">
+    <section class="widget">
+        <form id="search" action='http://fishwings.cn/search/' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="http://fishwings.cn">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="http://fishwings.cn/post/2022-05-26-Software-Architecture/" title="软件设计原则 1">软件设计原则 1</a>
+    </li>
+    
+    <li>
+        <a href="http://fishwings.cn/post/get-two-way-implementations-of-GoroutineID/" title="获取goroutine id 的两种实现">获取goroutine id 的两种实现</a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/categories/'>分类</a></h3>
+<ul class="widget-list">
+    
+    <li><a href="http://fishwings.cn/categories/go/">go (1)</a></li>
+    
+    <li><a href="http://fishwings.cn/categories/%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1/">软件设计 (1)</a></li>
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/tags/'>标签</a></h3>
+<div class="tagcloud">
+    
+    <a href="http://fishwings.cn/tags/go/">go</a>
+    
+    <a href="http://fishwings.cn/tags/%E8%BD%AF%E4%BB%B6%E6%9E%B6%E6%9E%84/">软件架构</a>
+    
+</div>
+    </section>
+
+    
+<section class="widget">
+    <h3 class="widget-title">友情链接</h3>
+    <ul class="widget-list">
+        
+        <li>
+            <a target="_blank" href="https://www.flysnow.org/" title="飞雪无情的博客">飞雪无情的博客</a>
+        </li>
+        
+    </ul>
+</section>
+
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="http://fishwings.cn/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
